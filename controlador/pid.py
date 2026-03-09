@@ -72,33 +72,3 @@ class Controlador:
             )
             for carril in orden
         ]
-
-
-# Prueba rapida
-if __name__ == "__main__":
-    from configuracion import VIDEOS
-    from deteccion.detector import Carril  
-    detector    = Carril()                 
-    controlador = Controlador()
-
-    # Analizamos los 4 videos con YOLO
-    conteos = {}
-    for carril, ruta in VIDEOS.items():
-        vehiculos, peatones = detector.analizar_video(ruta)
-        conteos[carril] = {
-            "vehiculos": vehiculos,
-            "peatones":  peatones
-        }
-        print(f"Carril {carril}: {vehiculos} vehiculos, {peatones} peatones")
-
-    print("─────────────────────────")
-    print("Orden segun congestion:")
-    orden = controlador.decidir_orden(conteos)
-    print(f"  {orden}")
-
-    print("─────────────────────────")
-    print("Tiempos calculados:")
-    ciclo = controlador.ciclo(conteos)
-    for carril, verde, amarillo in ciclo:
-        print(f"  Carril {carril}: {verde} seg verde, {amarillo} seg amarillo")
-    print("─────────────────────────")
