@@ -1,38 +1,34 @@
 
-from configuracion       import CARRILES, VIDEOS
-from deteccion.detector  import Carril
+from configuracion import CARRILES, VIDEOS
+from deteccion.detector import Carril
 
 
 def main():
     print("\n" + "="*55)
-    print("   SISTEMA DE SEMÁFORO INTELIGENTE - PID + YOLO")
+    print("SISTEMA DE SEMÁFORO INTELIGENTE - PID + YOLO")
     print("="*55)
 
-    # Inicializo el detector con el modelo de YOLO
+#Inicializo el detector con el modelo de YOLO
     detector = Carril(ruta_modelo="yolov8n.pt")
 
-    # Proceso cada carril uno por uno
+# Proceso cada carril uno por uno
     for nombre_carril in CARRILES:
         print(f"\n{'─'*55}")
-        print(f"  Procesando carril: {nombre_carril.upper()}")
+        print(f" Procesando carril:{nombre_carril.upper()}")
         print(f"{'─'*55}")
 
         ruta_video = VIDEOS[nombre_carril]
-
-        # Detección con YOLO
-        print("  [1] Detección YOLO...")
+#nYOLO
+        print("YOLO")
         maximo_vehiculos, maximo_peatones = detector.analizar_video(ruta_video)
 
-        print(f"      Vehículos detectados: {maximo_vehiculos}")
-        print(f"      Peatones detectados:  {maximo_peatones}")
-
-        # Por ahora solo mostramos los resultados
-        # Aquí irá el PID cuando esté listo el controlador
-        print(f"  [!] Controlador PID: pendiente")
-        print(f"  [!] Simulación semáforo: pendiente")
+        print(f"Vehículos detectados: {maximo_vehiculos}")
+        print(f"Peatones detectados:  {maximo_peatones}")
+# meustra resultados
+        print(f"Controlador PID: pendiente")
+        print(f"Simulación semáforo: pendiente")
 
     print("\n  Detección finalizada.\n")
-
 
 if __name__ == "__main__":
     main()
