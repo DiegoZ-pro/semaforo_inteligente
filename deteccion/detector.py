@@ -79,36 +79,3 @@ class Carril:
         maximo_peatones = max(conteos_peatones)
 
         return maximo_vehiculos, maximo_peatones
-
-# IMPORTANTE
-# ELIMINAR DE ACA PARA ABAJO CUANDO SE AGREGUE EL ARCHIVO "main.py"
-
-if __name__ == "__main__":
-
-    # Simulamos lo que hará main.py con los 4 carriles
-    detector = Carril()
-
-    resultados_carriles = {}
-
-    videos = {
-        "norte": "videos/carril_norte.mp4",
-        "sur":   "videos/carril_sur.mp4",
-        "este":  "videos/carril_este.mp4",
-        "oeste": "videos/carril_oeste.mp4",
-    }
-
-    for carril, ruta in videos.items():
-        print(f"\n── Carril {carril.upper()} ──")
-        autos, peatones = detector.analizar_video(ruta)
-        resultados_carriles[carril] = {
-            "autos": autos,
-            "peatones": peatones
-        }
-
-    # Mostramos el resumen final como lo verá main.py
-    print("\n═══════════════════════════")
-    print("     RESUMEN FINAL")
-    print("═══════════════════════════")
-    for carril, datos in resultados_carriles.items():
-        print(f"Carril {carril.upper()}: {datos['autos']} autos, {datos['peatones']} peatones")
-    print("═══════════════════════════")
