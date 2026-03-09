@@ -4,7 +4,7 @@
 TIEMPO_VERDE_BASE = 30      
 TIEMPO_VERDE_MIN = 10      
 TIEMPO_VERDE_MAX = 60      
-TIEMPO_AMARILLO = 3       
+TIEMPO_AMARILLO =3       
 
 # Parámetros del PID
 PID_KP = 1.2
