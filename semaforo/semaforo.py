@@ -26,8 +26,8 @@ class Semaforo:
         # todos empiezan en rojo hasta que el sistema calcule los tiempos
         self.estado = {
             "norte": "rojo",
-            "sur":   "rojo",
-            "este":  "rojo",
+            "sur":"rojo",
+            "este":"rojo",
             "oeste": "rojo"
         }
 
@@ -35,16 +35,16 @@ class Semaforo:
         # esto lo usa el PID para calcular el tiempo verde
         self.cnt = {
             "norte": {"vehiculos": 0, "peatones": 0},
-            "sur":   {"vehiculos": 0, "peatones": 0},
-            "este":  {"vehiculos": 0, "peatones": 0},
-            "oeste": {"vehiculos": 0, "peatones": 0}
+            "sur":{"vehiculos": 0, "peatones": 0},
+            "este":{"vehiculos": 0, "peatones": 0},
+            "oeste":{"vehiculos": 0, "peatones": 0}
         }
 
         # abrimos los 4 videos al mismo tiempo
         self.caps = {
             "norte": cv2.VideoCapture(VIDEOS["norte"]),
-            "sur":   cv2.VideoCapture(VIDEOS["sur"]),
-            "este":  cv2.VideoCapture(VIDEOS["este"]),
+            "sur":cv2.VideoCapture(VIDEOS["sur"]),
+            "este":cv2.VideoCapture(VIDEOS["este"]),
             "oeste": cv2.VideoCapture(VIDEOS["oeste"])
         }
 
@@ -76,7 +76,7 @@ class Semaforo:
 
         # guardamos el conteo para que el PID lo use despues
         self.cnt[carril]["vehiculos"] = n_autos
-        self.cnt[carril]["peatones"]  = n_personas
+        self.cnt[carril]["peatones"]= n_personas
         return frm
 
     def poner_semaforo(self, frm, carril):
@@ -84,29 +84,29 @@ class Semaforo:
 
         # dibujamos el semaforo en la esquina derecha
         # rojo arriba, amarillo en medio, verde abajo (igual que en la vida real)
-        cv2.circle(frm, (590, 35),  14, RJO if est=="rojo"     else OFF, -1)
+        cv2.circle(frm, (590, 35),  14, RJO if est=="rojo" else OFF, -1)
         cv2.circle(frm, (590, 70),  14, AMR if est=="amarillo" else OFF, -1)
-        cv2.circle(frm, (590, 105), 14, VRD if est=="verde"    else OFF, -1)
+        cv2.circle(frm, (590, 105), 14, VRD if est=="verde"else OFF, -1)
 
         cv2.putText(frm, carril.upper(), (8, 28),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.75, (255,255,255), 2)
-        cv2.putText(frm, f"autos:    {self.cnt[carril]['vehiculos']}", (8, 55),
+        cv2.putText(frm, f"autos:{self.cnt[carril]['vehiculos']}", (8, 55),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.55, VRD, 2)
-        cv2.putText(frm, f"personas: {self.cnt[carril]['peatones']}", (8, 78),
+        cv2.putText(frm, f"personas:{self.cnt[carril]['peatones']}", (8, 78),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.55, (255,100,0), 2)
-        cv2.putText(frm, f"tiempo:   {self.t_restante[carril]}s", (8, 101),
+        cv2.putText(frm, f"tiempo:{self.t_restante[carril]}s", (8, 101),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.55, AMR, 2)
         return frm
 
     def get_frames(self):
-        fms = {}
+        fms= {}
         for carril in CARRILES:
             ok, frm = self.caps[carril].read()
 
             # si el video se acabo lo repetimos desde el inicio
             if not ok:
                 self.caps[carril].set(cv2.CAP_PROP_POS_FRAMES, 0)
-                ok, frm = self.caps[carril].read()
+                ok, frm =self.caps[carril].read()
 
             frm = self.detectar_objetos(carril, frm)
             frm = self.poner_semaforo(frm, carril)
@@ -117,26 +117,26 @@ class Semaforo:
     def mostrar(self, fms):
         # ponemos norte y sur arriba, este y oeste abajo
         arriba = np.hstack([fms["norte"], fms["sur"]])
-        abajo  = np.hstack([fms["este"],  fms["oeste"]])
+        abajo  = np.hstack([fms["este"], fms["oeste"]])
         cv2.imshow("Semaforo Inteligente", np.vstack([arriba, abajo]))
 
     def ejecutar(self):
-        print("arrancando sistema...")
+        print("iniciando sistema...")
 
         while True:
             # el PID nos dice cuanto verde le toca a cada par segun los conteos
             fases = self.pid.ciclo(self.cnt)
 
             for fase in fases:
-                par    = fase["par"]
-                tv     = fase["tiempo_verde"]
-                c_vrd  = fase["carriles"]       # carriles que se ponen en verde
-                c_rjo  = ["este","oeste"] if par == "par_ns" else ["norte","sur"]
+                par = fase["par"]
+                tv = fase["tiempo_verde"]
+                c_vrd = fase["carriles"]       # carriles que se ponen en verde
+                c_rjo= ["este","oeste"] if par == "par_ns" else ["norte","sur"]
 
-                print(f"verde: {c_vrd}  |  rojo: {c_rjo}  |  {tv}s")
+                print(f"verde: {c_vrd} | rojo: {c_rjo} | {tv}s")
 
-                for c in c_vrd: self.estado[c] = "verde"
-                for c in c_rjo: self.estado[c] = "rojo"
+                for c in c_vrd: self.estado[c]= "verde"
+                for c in c_rjo: self.estado[c] ="rojo"
 
                 # fase verde: mostramos video hasta que se acabe el tiempo
                 t0 = time.time()
