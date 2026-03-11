@@ -1,9 +1,9 @@
 from configuracion import CARRILES, VIDEOS
 from deteccion.detector import Carril
-from semaforo.semaforo import semaforo
+from semaforo.semaforo import Semaforo
 
 def main():
-    s = semaforo()
+    s = Semaforo()
     s.ejecutar()
 
     print("\n"+"="*55)

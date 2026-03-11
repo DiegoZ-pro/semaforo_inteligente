@@ -1,0 +1,11 @@
+# Mac
+.DS_Store
+
+# Modelo YOLO
+yolov8n.pt
+
+# Carpeta de videos
+videos/
+
+# Si quieres ignorar cualquier video
+*.mp4
