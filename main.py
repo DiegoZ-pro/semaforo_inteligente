@@ -1,8 +1,11 @@
-
 from configuracion import CARRILES, VIDEOS
 from deteccion.detector import Carril
+from semaforo.semaforo import semaforo
 
 def main():
+    s = semaforo()
+    s.ejecutar()
+
     print("\n"+"="*55)
     print("SISTEMA DE SEMÁFORO INTELIGENTE - PID + YOLO")
     print("="*55)

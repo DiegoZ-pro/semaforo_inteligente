@@ -12,8 +12,8 @@ FILTRO_N = 10
 
 # Pares sincronizados: verde simultáneo dentro de cada par de semaforos xd
 PARES_SINCRONIZADOS = {
-    "par_NS": ["norte", "sur"],
-    "par_EO": ["este",  "oeste"],
+    "par_ns": ["norte", "sur"],
+    "par_eo": ["este",  "oeste"],
 }
 class Controlador:
 
