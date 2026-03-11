@@ -12,8 +12,8 @@ PID_KI = 0.08
 PID_KD = 0.3
 
 # Flujo vehicular "ideal"
-SETPOINT_AUTOS = 5       
-SETPOINT_PEATONES = 3       
+VEHICULOS_IDEAL = 5       
+PEATONES_IDEAL = 3       
 
 # Nombres de los carriles
 CARRILES = ["norte", "sur", "este", "oeste"]
