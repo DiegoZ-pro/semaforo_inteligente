@@ -99,16 +99,25 @@ class Semaforo:
         return frm
 
     def get_frames(self):
-        fms= {}
+        fms = {}
         for carril in CARRILES:
-            ok, frm = self.caps[carril].read()
+            if self.estado[carril] == "rojo":
+# congelamos el frame — los autos no avanzan en rojo
+                if hasattr(self, '_ultimo_frame') and carril in self._ultimo_frame:
+                    frm = self._ultimo_frame[carril].copy()
+                else:
+                    _, frm = self.caps[carril].read()
+            else:
+# verde o amarillo — avanzamos el video
+                ok, frm = self.caps[carril].read()
+                if not ok:
+                    self.caps[carril].set(cv2.CAP_PROP_POS_FRAMES, 0)
+                    ok, frm = self.caps[carril].read()
+                if not hasattr(self, '_ultimo_frame'):
+                    self._ultimo_frame = {}
+                self._ultimo_frame[carril] = frm.copy()
 
-            # si el video se acabo lo repetimos desde el inicio
-            if not ok:
-                self.caps[carril].set(cv2.CAP_PROP_POS_FRAMES, 0)
-                ok, frm =self.caps[carril].read()
-
-            frm = self.detectar_objetos(carril, frm)
+            frm = self.detectar_objetos(carril, frm) 
             frm = self.poner_semaforo(frm, carril)
             frm = cv2.resize(frm, (640, 360))
             fms[carril] = frm
