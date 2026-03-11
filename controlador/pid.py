@@ -12,8 +12,8 @@ FILTRO_N = 10
 
 # Pares sincronizados: verde simultáneo dentro de cada par de semaforos xd
 PARES_SINCRONIZADOS = {
-    "par_ns": ["norte", "sur"],
-    "par_eo": ["este",  "oeste"],
+    "par_NS": ["norte", "sur"],
+    "par_EO": ["este",  "oeste"],
 }
 class Controlador:
 
@@ -49,7 +49,7 @@ class Controlador:
         ajuste = y_out[-1]
 
 # Calculamos el tiempo verde final
-        tiempo = TIEMPO_VERDE_BASE + ajuste
+        tiempo = TIEMPO_VERDE_BASE +ajuste
 
 # Nos aseguramos de no salir de los limites
         tiempo = max(TIEMPO_VERDE_MIN, min(TIEMPO_VERDE_MAX, tiempo))
@@ -73,12 +73,12 @@ class Controlador:
         orden_pares =self._ordenar_pares(conteos)
         fases = []
         for nombre_par in orden_pares:
-            carriles_par = PARES_SINCRONIZADOS[nombre_par]
+            carriles_par =PARES_SINCRONIZADOS[nombre_par]
             tiempo_verde = self._calcular_tiempo_par(carriles_par, conteos)
 #ambis verdes estaran juntos (pares)
             fases.append({
-                "par":          nombre_par,
-                "carriles":     carriles_par,          
+                "par":nombre_par,
+                "carriles": carriles_par,          
                 "tiempo_verde": tiempo_verde,
                 "tiempo_amarillo": TIEMPO_AMARILLO,
             })
