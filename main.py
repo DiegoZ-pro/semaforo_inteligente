@@ -22,7 +22,7 @@ def main():
 
         print(f"Vehículos detectados:{maximo_vehiculos}")
         print(f"Peatones detectados:{maximo_peatones}")
-# meustra resultados
+# muestra resultados
         print(f"Controlador PID:pendiente")
         print(f"Simulación semáforo:pendiente")
 
